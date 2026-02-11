@@ -70,12 +70,19 @@ downloadBtn?.addEventListener('click', async () => {
 	}
 	try {
 		statusEl.textContent = 'Preparing download...'
-		const resp = await fetch(src, { mode: 'cors' })
+		const proxyUrl = `http://localhost:3000/download-image?url=${encodeURIComponent(src)}`
+		const resp = await fetch(proxyUrl)
+		if (!resp.ok) {
+			const errPayload = await resp.json().catch(() => null)
+			throw new Error(errPayload?.error || 'download_failed')
+		}
 		const blob = await resp.blob()
 		const url = URL.createObjectURL(blob)
 		const a = document.createElement('a')
 		a.href = url
-		a.download = `poster_${Date.now()}.png`
+		const header = resp.headers.get('Content-Disposition') || ''
+		const fileNameMatch = header.match(/filename="([^"]+)"/)
+		a.download = fileNameMatch?.[1] || `poster_${Date.now()}.png`
 		document.body.appendChild(a)
 		a.click()
 		URL.revokeObjectURL(url)
