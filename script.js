@@ -23,12 +23,12 @@ async function submitGeneration(payload) {
 
 	//   When Deploying 
 
-	const res = await fetch('/api/generate', {
+	const res = await fetch('/api', {
 	method: 'POST',
 	headers: { 'Content-Type': 'application/json' },
 	body: JSON.stringify(payload)
 	})
-	
+
 	const data = await res.json()
 	if (!res.ok) throw new Error(data?.error || 'generation_failed')
 	return data
