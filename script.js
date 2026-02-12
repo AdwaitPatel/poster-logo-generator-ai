@@ -14,19 +14,21 @@ function setPreviewLoading(isLoading) {
 
 async function submitGeneration(payload) {
 	// on local server(server.js)
-	const res = await fetch('http://localhost:3000/generateposter', {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify(payload)
-	})
+
+	// const res = await fetch('http://localhost:3000/generateposter', {
+	// 	method: 'POST',
+	// 	headers: { 'Content-Type': 'application/json' },
+	// 	body: JSON.stringify(payload)
+	// })
 
 	//   When Deploying 
 
-	//   const res = await fetch('/api/generate', {
-	//     method: 'POST',
-	//     headers: { 'Content-Type': 'application/json' },
-	//     body: JSON.stringify(payload)
-	//   })
+	const res = await fetch('/api/generate', {
+	method: 'POST',
+	headers: { 'Content-Type': 'application/json' },
+	body: JSON.stringify(payload)
+	})
+	
 	const data = await res.json()
 	if (!res.ok) throw new Error(data?.error || 'generation_failed')
 	return data
