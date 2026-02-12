@@ -1,8 +1,16 @@
 const form = document.getElementById('genForm')
 const statusEl = document.getElementById('status')
 const previewImg = document.getElementById('previewImg')
+const previewLoader = document.getElementById('previewLoader')
 const downloadLink = document.getElementById('downloadLink')
 const downloadBtn = document.getElementById('downloadBtn')
+const generateBtn = document.getElementById('generateBtn')
+let isGenerating = false
+
+function setPreviewLoading(isLoading) {
+	if (!previewLoader) return
+	previewLoader.classList.toggle('hidden', !isLoading)
+}
 
 async function submitGeneration(payload) {
 	// on local server(server.js)
@@ -26,8 +34,11 @@ async function submitGeneration(payload) {
 
 form?.addEventListener('submit', async (e) => {
 	e.preventDefault()
+	if (isGenerating) return
+	isGenerating = true
+	if (generateBtn) generateBtn.disabled = true
 	statusEl.textContent = 'Generating...'
-	previewImg.removeAttribute('src')
+	setPreviewLoading(true)
 	downloadLink.setAttribute('href', '#')
 
 	const fd = new FormData(form)
@@ -53,6 +64,10 @@ form?.addEventListener('submit', async (e) => {
 	} catch (err) {
 		console.error(err)
 		statusEl.textContent = `Error: ${err.message || err}`
+	} finally {
+		isGenerating = false
+		if (generateBtn) generateBtn.disabled = false
+		setPreviewLoading(false)
 	}
 })
 
