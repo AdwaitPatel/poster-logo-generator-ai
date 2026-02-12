@@ -13,17 +13,7 @@ function setPreviewLoading(isLoading) {
 }
 
 async function submitGeneration(payload) {
-	// on local server(server.js)
-
-	// const res = await fetch('http://localhost:3000/generateposter', {
-	// 	method: 'POST',
-	// 	headers: { 'Content-Type': 'application/json' },
-	// 	body: JSON.stringify(payload)
-	// })
-
-	//   When Deploying 
-
-	const res = await fetch('/api', {
+	const res = await fetch('/generateposter', {
 	method: 'POST',
 	headers: { 'Content-Type': 'application/json' },
 	body: JSON.stringify(payload)
@@ -87,7 +77,7 @@ downloadBtn?.addEventListener('click', async () => {
 	}
 	try {
 		statusEl.textContent = 'Preparing download...'
-		const proxyUrl = `http://localhost:3000/download-image?url=${encodeURIComponent(src)}`
+		const proxyUrl = `/download-image?url=${encodeURIComponent(src)}`
 		const resp = await fetch(proxyUrl)
 		if (!resp.ok) {
 			const errPayload = await resp.json().catch(() => null)

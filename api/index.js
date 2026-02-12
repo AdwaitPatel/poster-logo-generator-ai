@@ -1,15 +1,30 @@
 import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
 const app = express()
 app.use(cors())
 app.use(express.json({ limit: '2mb' }))
 
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+const rootDir = path.join(__dirname, '..')
+const publicDir = path.join(rootDir, 'public')
+const imgDir = path.join(rootDir, 'img')
+
 const KREA_API_BASE = 'https://api.krea.ai'
 const KREA_MODEL_PATH = '/generate/image/bfl/flux-1-dev'
 const KREA_API_TOKEN = process.env.KREA_API_TOKEN
 const ALLOWED_IMAGE_HOSTS = new Set(['gen.krea.ai', 'krea.ai', 'cdn.krea.ai'])
+
+app.use(express.static(publicDir))
+app.use('/img', express.static(imgDir))
+
+app.get('/', (_req, res) => {
+	res.sendFile(path.join(publicDir, 'index.html'))
+})
 
 app.post('/generateposter', async (req, res) => {
 	try {
@@ -190,7 +205,11 @@ function sleep(ms) {
 
 // vercel configs
 
-module.exports = app;
+export default app;
 
-// const PORT = process.env.PORT || 3000
-// app.listen(PORT, () => console.log(`API running on http://localhost:${PORT}`))
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+	const PORT = process.env.PORT || 3000
+	app.listen(PORT, () => {
+		console.log(`PosterMakerAI server running on http://localhost:${PORT}`)
+	})
+}

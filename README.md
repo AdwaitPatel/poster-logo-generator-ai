@@ -39,12 +39,14 @@ A full-stack web application for generating professional posters and logos using
 
 ```
 posterMakerAI/
-├── index.html          # Main HTML structure
-├── script.js           # Frontend logic and API interactions
-├── style.css           # Styling and responsive design
 ├── package.json        # Project dependencies and scripts
+├── vercel.json         # Vercel routing/build config
 ├── api/
-│   └── generate.js     # Backend server and API endpoints
+│   └── index.js        # Express app (UI + API routes)
+├── public/
+│   ├── index.html      # Main HTML structure
+│   ├── script.js       # Frontend logic and API interactions
+│   └── style.css       # Styling and responsive design
 └── img/
     └── logo.svg        # Application logo
 ```
