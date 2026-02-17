@@ -20,7 +20,8 @@ async function submitGeneration(payload) {
 	})
 
 	const data = await res.json()
-	if (!res.ok) throw new Error(data?.error || 'generation_failed')
+	// if (!res.ok) throw new Error(data?.error || 'generation_failed')
+	if (!res.ok) throw new Error(data.detail.message || 'generation_failed')
 	return data
 }
 

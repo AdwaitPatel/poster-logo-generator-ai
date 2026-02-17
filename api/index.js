@@ -14,6 +14,10 @@ const rootDir = path.join(__dirname, '..')
 const publicDir = path.join(rootDir, 'public')
 const imgDir = path.join(rootDir, 'img')
 
+// =====================================================
+// need to change the api key as it's paid 
+// =====================================================
+
 const KREA_API_BASE = 'https://api.krea.ai'
 const KREA_MODEL_PATH = '/generate/image/bfl/flux-1-dev'
 const KREA_API_TOKEN = process.env.KREA_API_TOKEN
