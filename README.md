@@ -1,4 +1,4 @@
-# PosterMakerAI
+# PosterMakerAI => https://poster-logo-generator-ai.vercel.app/
 
 A full-stack web application for generating professional posters and logos using AI. Powered by Krea AI's flux-1-dev image generation model, PosterMakerAI provides an intuitive interface to create visually appealing designs for your events.
 
